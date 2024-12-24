@@ -113,7 +113,7 @@ class ChannelMenu(pages.Page):
 
         if ch:
             doublemap['double_id'] = ch.get('doubleId')
-            doublemap['live_id'] = ch.get('liveId')
+            doublemap['live_uid'] = ch.get('liveUid')
 
             headers = self.site.user.get_headers().copy()
 
@@ -126,12 +126,12 @@ class ChannelMenu(pages.Page):
             elif ch.get('type') == "video":
                 xbmc.log("Getting live stream for channel %s from Smotrim.ru" % ch.get('title', ''),
                          xbmc.LOGDEBUG)
-                if doublemap.get('live_id'):
+                if doublemap.get('live_uid'):
                     try:
                         headers['Host'] = self.site.liveapi_host
                         headers['Sec-Fetch-Site'] = "none"
-                        datalive = self.site.request('https://%s/iframe/datalive/id/%s/' % (self.site.liveapi_host,
-                                                                                            doublemap['live_id']),
+                        datalive = self.site.request('https://%s/iframe/datalive/uid/%s/' % (self.site.liveapi_host,
+                                                                                            doublemap['live_uid']),
                                                      output="json", headers=headers)
                         # xbmc.log(json.dumps(datalive), xbmc.LOGDEBUG)
                         medialist = datalive['data']['playlist']['medialist'][0]
